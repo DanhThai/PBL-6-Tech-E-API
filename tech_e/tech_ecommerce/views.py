@@ -505,9 +505,9 @@ class OptionViewSet(viewsets.ViewSet):
             )
 
 class ProductList(generics.ListAPIView):
-    queryset = Products.objects.all()
-    serializer_class = ProductsSerializer
     permission_classes =[AllowAny]
+    queryset = Products.objects.all()
+    serializer_class = ProductsSerializer   
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = ProductFilter
     search_fields = ('^name','=category','=seller',) 

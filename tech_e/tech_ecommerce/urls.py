@@ -16,6 +16,6 @@ router.register(r'option', OptionViewSet, basename='option')
 
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('tech/', include(router.urls)),
     path('', ProductList.as_view())
 ]
