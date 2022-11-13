@@ -1,0 +1,8 @@
+django
+djangorestframework
+djangorestframework-simplejwt
+mysqlclient 
+validate_email
+py3DNS
+django-filter
+pyrebase4
