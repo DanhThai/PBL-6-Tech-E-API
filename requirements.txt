@@ -6,3 +6,4 @@ validate_email
 py3DNS
 django-filter
 pyrebase4
+jsons

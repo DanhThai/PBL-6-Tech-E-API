@@ -1,13 +1,15 @@
 import json
-from tech_ecommerce.models import Categories, Options, ProductChilds, ProductVariants, Products, Speficication
+from tech_ecommerce.models import Categories, ImgProducts, Options, ProductChilds, ProductVariants, Products, Speficication
 
-class insert_data():
+class InsertData():
     
     for i in ["Điện Thoại","Laptop"]:
         category = Categories.objects.get_or_create(name=i)
 
     data = json.load(open("./Data/crawled_data.json", encoding='utf8'))
-    for product in data:
+    data_img = json.load(open("./Data/img_data.json", encoding='utf8'))
+    for idx in range(0,len(data)):
+        product = data[idx]
         product_new = Products.objects.create(
             seller_id=1,
             category_id=1,
@@ -35,29 +37,51 @@ class insert_data():
             material = speficication['material'],
         )
         child_products=product['child_product']
+        list_childs=[]
+        list_options=[]
         for child in child_products:
             child_new = ProductChilds.objects.create(
-                id= child['id'],
                 product_id=product_new.pk,
                 name = child['name'],
                 sku = child['sku'],
                 price = child['price'],
                 inventory_status = child['inventory_status'],
                 selected = child['selected'],
-                thumbnail_url = child['thumbnail_url']
+                thumbnail_url = child['thumbnail_url']                
             )
+            option= dict()
+            option['option1']=child['option1']
+            if 'option2' in child and child['option2']:
+                option['option2']=child['option2']            
+            list_options.append(option)
+            list_childs.append(child_new)
+           
+            
+
         product_variants = product['product_variants']
+        option_idx=1
         for variant in product_variants:
             variant_new = ProductVariants.objects.create(
                 product_id=product_new.pk,
                 name = variant['name'],              
             )
-
-            options = variant['options']
-            for option in options:
-                print(option)
+            
+            for idx in range(0,len(list_childs)):
+                print(list_options[idx]['option'+str(option_idx)])
                 option_new = Options.objects.create(
-                    product_child_id = option['child_id'],
+                    product_child_id = list_childs[idx].pk,
                     product_variant_id=variant_new.pk,
-                    value = option['value']
+                    value = list_options[idx]['option'+str(option_idx)]
                 )
+            option_idx+=1
+            # child_idx=0
+            # for option in options:
+            #     print(option)
+            #     option_new = Options.objects.create(
+            #         product_child_id = list_child[child_idx],
+            #         product_variant_id=variant_new.pk,
+            #         value = option['value']
+            #     )
+            #     child_idx+=1
+        for img in data_img[idx]:
+            ImgProducts.objects.create(product_id=product_new.pk,link=img['link'])

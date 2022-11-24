@@ -8,8 +8,6 @@ class Categories(models.Model):
     icon = models.ImageField(upload_to='pictures/',max_length=255)
     description = models.TextField(null=True, blank=True)
     total = models.IntegerField(default=0, blank=True)
-    def __str__(self):
-        return self.name
 
 
 class Products(models.Model):
@@ -27,9 +25,7 @@ class Products(models.Model):
     modified_at = models.DateTimeField(auto_now=True, blank=True)
     color = models.CharField(max_length=100,null=True, blank=True)
     quantity_sold = models.IntegerField(default=0, blank=True)
-    review_count = models.IntegerField(default=0, blank=True)
-    def __str__(self):
-        return self.name 
+    review_count = models.IntegerField(default=0, blank=True) 
 
 
 class ImgProducts(models.Model):
@@ -52,7 +48,7 @@ class Speficication(models.Model):
     
 
 class ProductChilds(models.Model):
-    product = models.ForeignKey(Products, on_delete=models.CASCADE, related_name='product_childs')
+    product = models.ForeignKey(Products, on_delete=models.CASCADE, related_name='child_product')
     sku = models.CharField(max_length=100)
     name = models.CharField(max_length=255)
     price = models.FloatField(default=0, blank=True)
@@ -66,20 +62,26 @@ class ProductVariants(models.Model):
     ('Màu', 'Màu'),
     ('Dung lượng', 'Dung lượng')]
     product = models.ForeignKey(Products, on_delete=models.CASCADE, related_name='product_variants')
-    name = models.CharField(max_length=10, choices = VARIANT_CHOICES, default = 'color')
-    def __str__(self):
-        return self.name
+    name = models.CharField(max_length=10, choices = VARIANT_CHOICES, default = 'Màu')
 
 class Options(models.Model):
     product_variant = models.ForeignKey(ProductVariants, on_delete=models.CASCADE, related_name='options')
-    product_child = models.ForeignKey(ProductChilds, on_delete=models.CASCADE,related_name='options')
+    product_child = models.ForeignKey(ProductChilds, on_delete=models.CASCADE)
     value = models.CharField(max_length=100)
     
 
 class CartItem(models.Model):
-    user = models.ForeignKey(UserProfile, on_delete=models.CASCADE,related_name='cart_items')
-    product = models.ForeignKey(Products, on_delete=models.CASCADE,related_name='cart_items')
+    user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE,related_name='cart_items')
+    product_child = models.ForeignKey(ProductChilds, on_delete=models.CASCADE,related_name='cart_items')
     quantity = models.IntegerField(default=0, blank=True)
     total_price = models.FloatField(default=0, blank=True)
-    # def __str__(self):
-    #     return self.user
+
+
+class Interactive(models.Model):
+    product = models.ForeignKey(Products, on_delete=models.CASCADE,related_name='interactive')
+    user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE,related_name='interactive')
+    favorite = models.BooleanField(default=True, blank=True)
+    comment = models.TextField(null=True, blank=True)
+    link = models.URLField(max_length=255, null=True, blank=True)
+    rating = models.IntegerField(default=0, blank=True)
+    time_interactive = models.DateTimeField(auto_now=True, blank=True)

@@ -14,8 +14,6 @@ class UserProfile(models.Model):
     account_no = models.CharField(max_length=100,blank=True,null=True)
     item_count = models.IntegerField(default=0, blank=True)
     avt = models.ImageField(upload_to='pictures/',max_length=255, null=True, blank=True)
-    def __str__(self):
-        return self.user.last_name+' '+self.user.first_name
 
 class Seller(models.Model):
     user = models.OneToOneField(UserProfile, on_delete=models.CASCADE, primary_key=True)
@@ -30,5 +28,5 @@ class Seller(models.Model):
     response_rate = models.FloatField(default=0, blank=True)
     logo = models.ImageField(upload_to='pictures/',max_length=255)
     sku = models.CharField(max_length=256, null=True, blank=True)
-    def __str__(self):
-        return self.user.user.last_name+' '+self.user.user.first_name
+
+

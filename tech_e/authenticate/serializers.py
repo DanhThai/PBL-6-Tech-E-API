@@ -95,7 +95,6 @@ class SellerSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user_profile = validated_data.get('user')
         user = User.objects.get(userprofile=user_profile)
-        print(user_profile)
         supplier = Seller.objects.create(**validated_data)
         user_group = Group.objects.get(name="SELLER")
         user.groups.add(user_group)
