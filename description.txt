@@ -8,7 +8,9 @@ Import Lib:
   pip install mysqlclient
   pip install django-filter
   pip install pyrebase4
+  pip install jsons
   
 Command line: 
 - Install library: pip install -r requirements.txt
-- Add group: py manage.py shell => from authenticate.group_permission import AddGroup
+- Add group: Đổi "def AddGroup" thành "class AddGroup" => py manage.py shell => from authenticate.group_permission import AddGroup
+- Insert product data: py manage.py shell => from Data import InsertData
