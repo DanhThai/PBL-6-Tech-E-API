@@ -22,12 +22,6 @@ def CheckGroupOfUser(user):
 
 GROUPS = ['ADMIN', 'STAFF','USER','SELLER']
 
-class AddGroup():
-    admin_group = Group.objects.get_or_create(name="ADMIN")      
-    staff_group = Group.objects.get_or_create(name="STAFF")
-    user_group = Group.objects.get_or_create(name="USER")
-    sup_group = Group.objects.get_or_create(name="SELLER")
-
 
 class IsAdmin(permissions.BasePermission):
     def has_permission(self, request, view):

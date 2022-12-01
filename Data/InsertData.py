@@ -1,5 +1,12 @@
 import json
 from tech_ecommerce.models import Categories, ImgProducts, Options, ProductChilds, ProductVariants, Products, Speficication
+from django.contrib.auth.models import Group
+
+class AddGroup():
+    admin_group = Group.objects.get_or_create(name="ADMIN")      
+    staff_group = Group.objects.get_or_create(name="STAFF")
+    user_group = Group.objects.get_or_create(name="USER")
+    sup_group = Group.objects.get_or_create(name="SELLER")
 
 class InsertData():
     
@@ -75,17 +82,5 @@ class InsertData():
                     value = list_options[idx]['option'+str(option_idx)]
                 )
             option_idx+=1
-<<<<<<< HEAD:Data/InsertData.py
-=======
-            # child_idx=0
-            # for option in options:
-            #     print(option)
-            #     option_new = Options.objects.create(
-            #         product_child_id = list_child[child_idx],
-            #         product_variant_id=variant_new.pk,
-            #         value = option['value']
-            #     )
-            #     child_idx+=1
->>>>>>> 87c0474dbfc4c714cb05a3c7199db8d72b2af75b:tech_e/Data/InsertData.py
         for img in data_img[idx]:
             ImgProducts.objects.create(product_id=product_new.pk,link=img['link'])
