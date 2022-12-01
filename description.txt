@@ -13,4 +13,12 @@ Import Lib:
 Command line: 
 - Install library: pip install -r requirements.txt
 - Add group: Đổi "def AddGroup" thành "class AddGroup" => py manage.py shell => from authenticate.group_permission import AddGroup
+<<<<<<< HEAD
 - Insert product data: py manage.py shell => from Data import InsertData
+=======
+<<<<<<< Updated upstream
+- Insert product data: py manage.py shell => from Data import InsertData
+=======
+- Insert product data: py manage.py shell => from Data import insert_data
+>>>>>>> Stashed changes
+>>>>>>> 87c0474dbfc4c714cb05a3c7199db8d72b2af75b

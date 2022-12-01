@@ -22,7 +22,7 @@ def CheckGroupOfUser(user):
 
 GROUPS = ['ADMIN', 'STAFF','USER','SELLER']
 
-def AddGroup():
+class AddGroup():
     admin_group = Group.objects.get_or_create(name="ADMIN")      
     staff_group = Group.objects.get_or_create(name="STAFF")
     user_group = Group.objects.get_or_create(name="USER")
