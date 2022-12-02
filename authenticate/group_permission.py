@@ -23,6 +23,7 @@ def CheckGroupOfUser(user):
 GROUPS = ['ADMIN', 'STAFF','USER','SELLER']
 
 
+
 class IsAdmin(permissions.BasePermission):
     def has_permission(self, request, view):
         return bool(request.user.is_superuser and request.user.is_authenticated)

@@ -66,7 +66,7 @@ class ProductVariants(models.Model):
 
 class Options(models.Model):
     product_variant = models.ForeignKey(ProductVariants, on_delete=models.CASCADE, related_name='options')
-    product_child = models.ForeignKey(ProductChilds, on_delete=models.CASCADE)
+    product_child = models.ForeignKey(ProductChilds, on_delete=models.CASCADE,related_name='options')
     value = models.CharField(max_length=100)
     
 

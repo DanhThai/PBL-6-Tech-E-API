@@ -3,8 +3,8 @@ import django_filters as filters
 from tech_ecommerce.models import Products
 
 class ProductFilter(filters.FilterSet):
-    lesser_price = filters.NumberFilter(field_name='price', lookup_expr='gte')
-    greater_price = filters.NumberFilter(field_name='price', lookup_expr='lte')
+    price_gte = filters.NumberFilter(field_name='price', lookup_expr='gte')
+    price_lte = filters.NumberFilter(field_name='price', lookup_expr='lte')
     rating_average_gte = filters.NumberFilter(field_name='rating_average', lookup_expr='gte')
     rating_average_lte = filters.NumberFilter(field_name='rating_average', lookup_expr='lte')
     name = filters.CharFilter(field_name="name", lookup_expr='icontains')
@@ -21,5 +21,5 @@ class ProductFilter(filters.FilterSet):
     ordering = filters.OrderingFilter(fields=['category', 'price', 'rating_average'])
     class Meta:
         model = Products
-        fields = ['id','lesser_price','greater_price','rating_average_gte','rating_average_lte','category','seller','name','color',
+        fields = ['id','price_lte','price_lte','rating_average_gte','rating_average_lte','category','seller','name','color',
         'brand','ram','rom','screen_gte','screen_gte','battery_gte','battery_lte']

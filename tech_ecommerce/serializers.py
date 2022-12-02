@@ -54,45 +54,80 @@ class ProductChildSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
-
 class OptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Options
         fields = '__all__'
-    def create(self, validated_data):
-        return Options.objects.create(**validated_data)
-    def update(self, instance, validated_data):
-        instance.value = validated_data.get('value', instance.value)
-        instance.save()
-        return instance
-
-        
+        read_only_fileds=['id']
+    def validate(self, data):    
+        option_new = Options.objects.get(product_variant=data['product_variant'],product_child=data['product_child'])
+        if not self.instance and option_new is not None:
+            raise serializers.ValidationError({"option": "Variant option is existed"})
+        if self.instance and option_new:
+            if self.instance.product_child != option_new.product_child:
+                raise serializers.ValidationError({"option": "Multi product childs must not be in a variant option"})      
+        return data
+     
 class ProductVariantSerializer(serializers.ModelSerializer):
-    options = OptionSerializer(many=True, required=False)
+    class OptionSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = Options
+            fields = ['id','value','product_child']
+            read_only_fileds=['id']
+
+    options = OptionSerializer(many=True)
     class Meta:
         model = ProductVariants
         fields = '__all__'
+        read_only_fileds=['id']
+    # Kiểm tra product variant chỉ chứa 1 (Màu, Dung lượng)
+    # Kiểm tra option chỉ chứa 1 child ứng với 1 variant
+    def validate(self, data):
+        variant = ProductVariants.objects.get(name=data['name'],product=data['product']) 
+        if not self.instance and variant is not None:
+            raise serializers.ValidationError({"variant": "Product variant is existed"})
+        option_data = data['options']
+        for i in range(0,len(option_data)):
+            for j in range(i+1,len(option_data)):
+                if option_data[i].get('product_child')==option_data[j].get('product_child'):
+                    raise serializers.ValidationError({"option": "Multi product childs must not be in a variant option"})
+        return data
     def create(self, validated_data):
-        return ProductVariants.objects.create(**validated_data)
+        options_data = validated_data.pop('options')  
+        variant=ProductVariants.objects.create(product_variant=variant,**validated_data)
+        for option in options_data:
+            Options.objects.create(product_variant=variant,**option)
+        return variant
+
     def update(self, instance, validated_data):
-        instance.name = validated_data.get('name', instance.name)
+        instance.name = validated_data.get('name', instance.name)     
         instance.save()
+        options = list((instance.options).all())
+        options_data = validated_data.pop('options') 
+        for option in options_data:        
+            option_update=options.pop(0)
+            option_update.value = option.get('value', option_update.value)
+            option_update.product_child = option.get('product_child', option_update.product_child)
+            option_update.save()
         return instance
 
 
+        
+
 class ProductsSerializer(serializers.ModelSerializer):
     img_products = ImgProductSerializer(many=True, required=False)
-    child_product = ProductChildSerializer(many=True, required=False) 
+    product_childs = ProductChildSerializer(many=True, required=False) 
     product_variants = ProductVariantSerializer(many=True, required=False) 
     speficication = SpeficicationSerializer()
+
     class Meta:
         model = Products
         fields = '__all__'      
         read_only_fileds = ('category','seller', 'img_products','product_variants')
     def create(self, validated_data):
-        obj_speficication = validated_data.pop('speficication')
+        speficication_data = validated_data.pop('speficication')
         product = Products.objects.create(**validated_data)
-        Speficication.objects.create(product=product,**obj_speficication)
+        Speficication.objects.create(product=product,**speficication_data)
 
         product.category.total += 1
         product.category.save()
