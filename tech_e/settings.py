@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure--)bt*^zzzerpxj$x5k#qjx#6*pf%zwd)xe2@%p3*j=0y%#-yap
 DEBUG = False
 
 # heroku
-ALLOWED_HOSTS = ['127.0.0.1','pbl6-test.herokuapp.com']
+ALLOWED_HOSTS = ['127.0.0.1','pbl6-deploy.herokuapp.com']
 
 
 # Application definition
@@ -100,10 +100,10 @@ WSGI_APPLICATION = 'tech_e.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dab6um9mu7ec2f',
-        'USER': 'oetdjjrjspgutq',
-        'PASSWORD': '636f86f99d3f6f4244b0f8e19ec805a875ae6ed3d73a9f41ab4135c2928d6be2',
-        'HOST': 'ec2-44-195-132-31.compute-1.amazonaws.com',
+        'NAME': 'd8lmg0525poe0i',
+        'USER': 'arqennoinhuscz',
+        'PASSWORD': 'cddbb1aaff221a5c83c8327c36851f928dc55f7af67ab709dcdd3f1e930951f8',
+        'HOST': 'ec2-3-213-228-206.compute-1.amazonaws.com',
         'PORT': '5432',
     }
 }

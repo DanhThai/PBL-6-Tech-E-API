@@ -2,11 +2,11 @@ import json
 from tech_ecommerce.models import Categories, ImgProducts, Options, ProductChilds, ProductVariants, Products, Speficication
 from django.contrib.auth.models import Group
 
-class AddGroup():
-    admin_group = Group.objects.get_or_create(name="ADMIN")      
-    staff_group = Group.objects.get_or_create(name="STAFF")
-    user_group = Group.objects.get_or_create(name="USER")
-    sup_group = Group.objects.get_or_create(name="SELLER")
+# class AddGroup():
+#     admin_group = Group.objects.get_or_create(name="ADMIN")      
+#     staff_group = Group.objects.get_or_create(name="STAFF")
+#     user_group = Group.objects.get_or_create(name="USER")
+#     sup_group = Group.objects.get_or_create(name="SELLER")
 
 class InsertData():
     

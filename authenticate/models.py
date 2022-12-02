@@ -7,8 +7,8 @@ from django.contrib.auth.models import User
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     is_seller = models.BooleanField(default=False,blank=True)
-    gender = models.BooleanField(default=False, blank=True)
-    birthday = models.DateField(auto_now_add=True, blank=True)
+    gender = models.BooleanField(null=True, blank=True)
+    birthday = models.DateField(null=True, blank=True)
     phone = models.CharField(max_length=10,blank=True,null=True)
     address = models.CharField(max_length=100,blank=True,null=True)
     account_no = models.CharField(max_length=100,blank=True,null=True)
